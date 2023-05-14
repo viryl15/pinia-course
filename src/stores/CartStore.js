@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia';
+import { defineStore, acceptHMRUpdate } from 'pinia';
 
 import { groupBy, sumBy } from 'lodash';
 
@@ -52,4 +52,9 @@ export const useCartStore = defineStore("CartStore", {
             this.addItems(count, item);
         }
     }
-})
+});
+
+
+if (import.meta.hot) {
+    import.meta.hot.accept(acceptHMRUpdate(useCartStore, import.meta.hot))
+}
