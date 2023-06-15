@@ -1,13 +1,17 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
 
+import { useLocalStorage } from '@vueuse/core'
+
 import { groupBy, sumBy } from 'lodash';
 
 import { useAuthUserStore } from '@/stores/AuthUserStore';
 
 export const useCartStore = defineStore("CartStore", {
+    historyEnabled: true,
+
     state: () => {
         return {
-            items: []
+            items: useLocalStorage("CartStore:items", [])
         }
     },
 
@@ -37,10 +41,9 @@ export const useCartStore = defineStore("CartStore", {
         },
         addItems(count, item) {
             count = parseInt(count);
-
             for (let index = 0; index < count; index++) {
-                this.items.push({...item})
-              }
+                this.items.push({...item});
+            }
         },
 
         removeItem(name){
